@@ -69,6 +69,7 @@ def _create_mode(ui, cfg):
             exclude_regexs=cfg['exclude_regex'],
             include_globs=cfg['include'],
             include_regexs=cfg['include_regex'],
+            piece_size=cfg['piece_size'] if cfg['piece_size'] else None,
             piece_size_max=cfg['max_piece_size'] if cfg['max_piece_size'] else None,
             trackers=() if cfg['notracker'] else trackers,
             webseeds=() if cfg['nowebseed'] else cfg['webseed'],
