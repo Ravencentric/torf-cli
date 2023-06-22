@@ -63,6 +63,8 @@ ARGUMENTS
                            (default: '{DEFAULT_CREATOR}')
     --source, -s SOURCE    Add "source" field
     --xseed, -x            Randomize info hash
+    --piece-size SIZE      Specify piece size in multiples of 1 MiB
+                           (must be a power of two)
     --max-piece-size SIZE  Maximum piece size in multiples of 1 MiB
                            (must be a power of two)
     --notracker, -T        Remove trackers from INPUT
@@ -122,6 +124,7 @@ _cliparser.add_argument('--date', '-d', default='')
 _cliparser.add_argument('--creator', '-a', nargs='?', const=DEFAULT_CREATOR)
 _cliparser.add_argument('--source', '-s', default='')
 _cliparser.add_argument('--xseed', '-x', action='store_true')
+_cliparser.add_argument('--piece-size', default=0, type=float)
 _cliparser.add_argument('--max-piece-size', default=0, type=float)
 
 _cliparser.add_argument('--notracker', '-T', action='store_true')
@@ -172,6 +175,8 @@ def parse_args(args):
         except ValueError:
             raise _errors.CliError(f'{cfg["date"]}: Invalid date')
 
+    cfg['piece_size'] = cfg['piece_size'] * 1048576
+    
     # Validate max piece size
     if cfg['max_piece_size']:
         cfg['max_piece_size'] = cfg['max_piece_size'] * 1048576
